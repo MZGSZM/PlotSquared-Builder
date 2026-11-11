@@ -1,0 +1,22 @@
+# Checks that the builder still produces a jar for the latest PlotSquared
+# release. Nothing is uploaded: no artifacts, no releases.
+name: Verify build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 * * 1"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Build latest release
+        run: bash build.sh -v latest
+
+      - name: Show what was built
+        run: cat output/BUILD_INFO && ls -l output/
